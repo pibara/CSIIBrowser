@@ -11,6 +11,7 @@ for dataset in ["89"]:
   dataset["desc"]["X002"]="Added animal fat as percentage of total added fat."
   dataset["desc"]["X003"]="N6/n3 ratio"
   dataset["desc"]["X004"]="Nonhdl/hdl ratio"
+  dataset["desc"]["X005"]="Apo-b/Apo-a1 ratio"
   dataset["desc"]["M200"]="mostality Probability of living upto the age of 80 years old."
   for num in range(1,148):
     snum = str(num).zfill(3)
@@ -51,6 +52,12 @@ for dataset in ["89"]:
           if hdl > 0:
             p6 = nonhdl / hdl
             xiangsubset["X004"]=round(p6,6)
+        if ("P004" in xiangsubset) and ("P005" in xiangsubset):
+          apoa = xiangsubset["P004"]
+          apob = xiangsubset["P005"]
+          if apoa > 0:
+            p7 = apob / apoa
+            xiangsubset["X005"] = round(p7,6)
         if ("M001" in xiangsubset) and ("M002" in xiangsubset) and ("M003" in xiangsubset) and ("M005" in xiangsubset) and ("M006" in xiangsubset) :
           m1 = math.pow(1.0 - (1.0 * xiangsubset["M001"] / 1000),5)
           m2 = math.pow(1.0 - (1.0 * xiangsubset["M002"] / 100000),10)

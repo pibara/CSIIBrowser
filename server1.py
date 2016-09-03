@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy 
 import json
 from cherrypy.process.plugins import Daemonizer
+from threading import Thread, Lock
 
 def fetchdoubleornot(var,path,var2,path2,datapoint,datapoint2):
   if path[0] in datapoint and path2[0] in datapoint2:
@@ -32,6 +33,7 @@ def fetchdouble(var1,path1,var2,path2,datapoints):
 class DataSetBrowser(object):
   def __init__(self,dataset):
     self.dataset = dataset
+    self.mutex = Lock()
   def varsasarray(self,var1,path1,var2,path2):
     rv1=[]
     rv2=[]
@@ -91,9 +93,8 @@ class DataSetBrowser(object):
       if len(i) == 1:
         g=i.pop()
         return self.primary(f1,f2,g,g,deg)
-      for g1 in i:
-        for g2 in i:
-          rval = rval + "<A HREF=\"primary?f1=" + f1 + "&g1=" + g1 + "&f2=" + f2 + "&g2=" + g2 +"&deg=" + deg + "\">" + g1 + "=>" + g2 + "</A><br>"  
+      for g in i:
+        rval = rval + "<IMG SRC=\"primary?f1=" + f1 + "&g1=" + g + "&f2=" + f2 + "&g2=" + g +"&deg=" + deg + "\"><br>"   
       return rval
   @cherrypy.expose
   def primary(self,f1="D001",f2="X007",g1="T",g2="T",deg="3"):
@@ -105,16 +106,23 @@ class DataSetBrowser(object):
     fit,C_p = numpy.polyfit(a1, a2, n, cov=True) 
     p = numpy.poly1d(fit)
     p1 = numpy.poly1d(numpy.polyfit(a1, a2, 1))
-    plt.xlabel(self.fullname(f1) + " G=" + g1)
-    plt.ylabel(self.fullname(f2) + " G=" + g2)
-    plt.suptitle("Fit for Polynomial (degree {})".format(n))
-    plt.scatter(a1,a2)
-    plt.plot(xp, p(xp), '-',xp, p1(xp), '-')
-    fig = plt.gcf()
-    fig.savefig(buffer, format='png')
-    plt.clf()
+    self.mutex.acquire()
+    try:
+        plt.xlabel(self.fullname(f1) + " G=" + g1)
+        plt.ylabel(self.fullname(f2) + " G=" + g2)
+        plt.suptitle("Fit for Polynomial (degree {})".format(n))
+        plt.scatter(a1,a2)
+        plt.plot(xp, p(xp), '-',xp, p1(xp), '-')
+        fig = plt.gcf()
+        fig.savefig(buffer, format='png')
+        plt.clf()
+    finally:
+        self.mutex.release()
     buffer.seek(0)
     return file_generator(buffer)
+  @cherrypy.expose
+  def ll0(self):
+    return "<H3>China Study II longlivety explorer</H3><FORM action=\"ll1\" method=\"GET\"><SELECT name=\"t1\"><OPTION value=\"D\">Dietary survey</OPTION><OPTION value=\"Q\">Questionnaire</OPTION><OPTION value=\"U\">Urine</OPTION><OPTION value=\"R\">Blood (red)</OPTION><OPTION value=\"P\">Blood (plasma)</OPTION></SELECT><BUTTON type=\"submit\">Continue</BUTTON></FORM>"
 
 if __name__ == '__main__':
     datapath = "./NW89.JSON"
