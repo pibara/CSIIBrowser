@@ -23,3 +23,6 @@ shows an often completely opposite picture from the one described in the book.
 
 So to you vegan militants accusing me of misrepresenting the data, see for yourself, it really is only visualisation,
 this is actually how the data looks, sorry about that. 
+
+If you want to check out the running code, I have it [running on a C.H.I.P](http://timelord-ninja.xs4all.nl/)
+(might not be up 24/7 though).
