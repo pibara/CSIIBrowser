@@ -23,3 +23,9 @@ shows an often completely opposite picture from the one described in the book.
 
 So to you vegan militants accusing me of misrepresenting the data, see for yourself, it really is only visualisation,
 this is actually how the data looks, sorry about that. 
+
+If you want to check out the running code, I have it [running on a C.H.I.P](http://timelord-ninja.xs4all.nl/)
+(might not be up 24/7 though).
+
+I would very much like to extent this server into a more generic epi data univar browser, but unfortunately I'm running into (re-)sharing policies for data sets. For this project to work with different data sets, I need to be allowed to convert the original data-set to a specific unified JSON format used in this project, and I need to be allowed to re-share my JSON representation of the data from this github repo. If you happen to know of any nutritional epi data set that fits these requirements that might be a usefull addition to this project, please drop me a message at pibara@gmail.com 
+
