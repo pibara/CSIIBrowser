@@ -12,7 +12,13 @@ for dataset in ["89"]:
   dataset["desc"]["X003"]="N6/n3 ratio"
   dataset["desc"]["X004"]="Nonhdl/hdl ratio"
   dataset["desc"]["X005"]="Apo-b/Apo-a1 ratio"
-  dataset["desc"]["M200"]="mostality Probability of living upto the age of 80 years old."
+  dataset["desc"]["X006"]="Aop-a/Nonhdl"
+  dataset["desc"]["X007"]="Red meat as percentage of animal-based food"
+  dataset["desc"]["X008"]="Eggs as percentage of animal-based food"
+  dataset["desc"]["X009"]="Dairy as percentage of animal-based food"
+  dataset["desc"]["X010"]="Added fat as percentage of animal-based food"
+  dataset["desc"]["M200"]="mortality Probability of living upto the age of 80 years old."
+  dataset["desc"]["M201"]="isch/cereb mortality ratio (35..69)." 
   for num in range(1,148):
     snum = str(num).zfill(3)
     val = dataset["desc"]["D"+snum]
@@ -58,6 +64,35 @@ for dataset in ["89"]:
           if apoa > 0:
             p7 = apob / apoa
             xiangsubset["X005"] = round(p7,6)
+        if ("P004" in xiangsubset) and ("P003" in xiangsubset):
+          apoa = xiangsubset["P004"]
+          nonhdl = xiangsubset["P003"]
+          xiangsubset["X006"] = round(math.sqrt(apoa * nonhdl),6)
+        if (("M063" in xiangsubset) and ("M065" in xiangsubset)):
+          isch = xiangsubset["M063"]
+          cereb = xiangsubset["M065"]
+          if cereb > 0:
+            xiangsubset["M201"] = 1.0*isch/cereb;
+        if (("D029" in xiangsubset) and ("D050" in xiangsubset)):
+          meat = xiangsubset["D050"]
+          animal = xiangsubset["D029"]
+          if animal > 0:
+            xiangsubset["X007"] = 100.0*meat/animal;
+        if (("D029" in xiangsubset) and ("D050" in xiangsubset)):
+          eggs = xiangsubset["D048"]
+          animal = xiangsubset["D029"]
+          if animal > 0:
+            xiangsubset["X008"] = 100.0*eggs/animal;
+        if (("D029" in xiangsubset) and ("D050" in xiangsubset)):
+          dairy = xiangsubset["D047"]
+          animal = xiangsubset["D029"]
+          if animal > 0:
+            xiangsubset["X009"] = 100.0*dairy/animal;
+        if (("D029" in xiangsubset) and ("D050" in xiangsubset)):
+          fat = xiangsubset["D053"]
+          animal = xiangsubset["D029"]
+          if animal > 0:
+            xiangsubset["X010"] = 100.0*fat/animal;
         if ("M001" in xiangsubset) and ("M002" in xiangsubset) and ("M003" in xiangsubset) and ("M005" in xiangsubset) and ("M006" in xiangsubset) :
           m1 = math.pow(1.0 - (1.0 * xiangsubset["M001"] / 1000),5)
           m2 = math.pow(1.0 - (1.0 * xiangsubset["M002"] / 100000),10)

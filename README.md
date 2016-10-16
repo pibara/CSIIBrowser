@@ -18,7 +18,7 @@ tool for the CS-II data.
 I've published the code of this server in an act of defense, showing I'm not doing anything strange with the data that
 makes the equally named book look bad. It is all just visualisation of data that is there, no fancy stats tricks designed 
 to make the veganism or proteinophobia look badly, just straight forward code, showing that without the weapons of
-eloquence and multi-layered deductive reasoning, two attributes that the books author abundantly posesses, the actual data
+eloquence and multi-layered inductive reasoning, two attributes that the books author abundantly posesses, the actual data
 shows an often completely opposite picture from the one described in the book. 
 
 So to you vegan militants accusing me of misrepresenting the data, see for yourself, it really is only visualisation,
