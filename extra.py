@@ -16,6 +16,7 @@ for dataset in ["89"]:
   dataset["desc"]["X007"]="Red meat as percentage of animal-based food"
   dataset["desc"]["X008"]="Eggs as percentage of animal-based food"
   dataset["desc"]["X009"]="Dairy as percentage of animal-based food"
+  dataset["desc"]["X202"]="Caloric density (calories/gram)"
   dataset["desc"]["X010"]="Added fat as percentage of animal-based food"
   dataset["desc"]["M200"]="mortality Probability of living upto the age of 80 years old."
   dataset["desc"]["M201"]="isch/cereb mortality ratio (35..69)." 
@@ -113,6 +114,11 @@ for dataset in ["89"]:
             onum = "Q" + str(num).zfill(3)
             if snum in dataset["desc"] and onum in xiangsubset:
               xiangsubset[snum] = 1.0 * xiangsubset[onum] / weight
+        if "D001" in xiangsubset and "D030" in xiangsubset and xiangsubset["D030"] > 0:
+            cals = xiangsubset["D001"]
+            grams = xiangsubset["D030"]
+            density = cals/grams
+            xiangsubset["X202"] = density
          
   f = open(outfile, 'w')
   f.write(json.dumps(dataset,sort_keys=True,indent=4, separators=(',', ': ')))
